@@ -1,10 +1,11 @@
 /* =============================================================================
-   THEME BACKGROUNDS - Pixel World Map with Theme Overlays
-   Based on OpenGameArt pixel art overworld map
+   THEME BACKGROUNDS - Unique Pixel Art Maps per Theme
+   Each theme has its own distinctive world map background
    ============================================================================= */
 
 /* =============================================================================
-   CLASSIC FANTASY - Medieval Overworld Map (Original Pixel Art)
+   CLASSIC FANTASY - Medieval Overworld Map (Original)
+   Dragon Quest style - green fields, mountains, castles
    ============================================================================= */
 
 .theme-classic {
@@ -14,7 +15,7 @@
     radial-gradient(ellipse at 10% 10%, rgba(255, 140, 0, 0.3) 0%, transparent 50%),
     radial-gradient(ellipse at 90% 10%, rgba(255, 140, 0, 0.25) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 50%, rgba(255, 165, 0, 0.15) 0%, transparent 70%),
-    /* Pixel art overworld map */
+    /* Pixel art overworld map - medieval fantasy */
     url('https://opengameart.org/sites/default/files/overworld-pre-sm.png');
   background-size: 
     100% 100%,
@@ -98,19 +99,20 @@
 }
 
 /* =============================================================================
-   90s MILLENNIUM - FF7 World Map with Mako Filter
-   Industrial fantasy version with green/blue mako tint
+   90s MILLENNIUM - Cyberpunk City Map (FF7 Midgar Style)
+   Industrial metropolis with neon lights and dark atmosphere
+   Using pixel art city background
    ============================================================================= */
 
 .theme-millennium {
   background-color: #0a0e1a;
   background-image: 
-    /* Mako energy overlay - green/blue tint */
-    radial-gradient(ellipse at 30% 40%, rgba(0, 255, 136, 0.25) 0%, transparent 40%),
-    radial-gradient(ellipse at 70% 60%, rgba(74, 144, 217, 0.3) 0%, transparent 45%),
-    radial-gradient(ellipse at 50% 50%, rgba(0, 255, 136, 0.15) 0%, transparent 60%),
-    /* Pixel art overworld map with mako filter */
-    url('https://opengameart.org/sites/default/files/overworld-pre-sm.png');
+    /* Mako energy glow overlay - green/blue neon */
+    radial-gradient(ellipse at 20% 30%, rgba(0, 255, 136, 0.3) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 70%, rgba(74, 144, 217, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(0, 255, 136, 0.15) 0%, transparent 65%),
+    /* Pixel art cyberpunk city - industrial fantasy */
+    url('https://opengameart.org/sites/default/files/city-background_0.png');
   background-size: 
     100% 100%,
     100% 100%,
@@ -120,16 +122,10 @@
   background-attachment: fixed;
   image-rendering: pixelated;
   position: relative;
-  /* Apply slight color filter for mako effect */
-  filter: hue-rotate(90deg) saturate(1.3);
+  overflow: hidden;
 }
 
-/* Container wrapper to prevent filter affecting children */
-.theme-millennium #app {
-  filter: none;
-}
-
-/* Animated mako particles */
+/* Animated mako particles - floating energy */
 .theme-millennium::before {
   content: '';
   position: fixed;
@@ -179,7 +175,7 @@
   height: 150vmax;
   background: radial-gradient(
     circle,
-    rgba(0, 255, 136, 0.1) 0%,
+    rgba(0, 255, 136, 0.12) 0%,
     transparent 50%
   );
   animation: makoPulse 4s ease-out infinite;
@@ -202,8 +198,8 @@
 }
 
 /* =============================================================================
-   SCI-FI RPG - Space World Map with Holographic Overlay
-   Star Ocean/Phantasy Star style - cosmic version
+   SCI-FI RPG - Space Station/Planet View (Star Ocean Style)
+   Futuristic space environment with stars and orbital view
    ============================================================================= */
 
 .theme-scifi {
@@ -212,19 +208,19 @@
     /* Holographic grid overlay */
     linear-gradient(
       0deg,
-      rgba(0, 255, 255, 0.12) 1px,
+      rgba(0, 255, 255, 0.1) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      rgba(0, 255, 255, 0.12) 1px,
+      rgba(0, 255, 255, 0.1) 1px,
       transparent 1px
     ),
     /* Deep space nebula */
-    radial-gradient(ellipse at 20% 30%, rgba(100, 0, 255, 0.25) 0%, transparent 40%),
-    radial-gradient(ellipse at 80% 70%, rgba(0, 100, 255, 0.2) 0%, transparent 35%),
-    /* Pixel art overworld map with space filter */
-    url('https://opengameart.org/sites/default/files/overworld-pre-sm.png');
+    radial-gradient(ellipse at 20% 30%, rgba(100, 0, 255, 0.3) 0%, transparent 45%),
+    radial-gradient(ellipse at 80% 70%, rgba(0, 100, 255, 0.25) 0%, transparent 40%),
+    /* Pixel art space scene - use a sci-fi landscape */
+    url('https://opengameart.org/sites/default/files/space-background.png');
   background-size: 
     50px 50px,
     50px 50px,
@@ -235,16 +231,10 @@
   background-attachment: fixed;
   image-rendering: pixelated;
   position: relative;
-  /* Apply blue/cyan filter for sci-fi effect */
-  filter: hue-rotate(180deg) saturate(1.2) contrast(1.1);
+  overflow: hidden;
 }
 
-/* Container wrapper to prevent filter affecting children */
-.theme-scifi #app {
-  filter: none;
-}
-
-/* Animated grid movement */
+/* Animated grid movement - holographic effect */
 .theme-scifi::before {
   content: '';
   position: fixed;
@@ -317,8 +307,7 @@ body {
   transition: 
     background 0.5s ease,
     background-image 0.5s ease,
-    color 0.3s ease,
-    filter 0.5s ease;
+    color 0.3s ease;
 }
 
 .retro-panel,
