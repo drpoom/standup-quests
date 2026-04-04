@@ -1,48 +1,34 @@
 /* =============================================================================
-   ADVANCED THEME BACKGROUNDS - Eye-catching, distinctive designs
+   THEME BACKGROUNDS - Pixel World Map with Theme Overlays
+   Based on OpenGameArt pixel art overworld map
    ============================================================================= */
 
 /* =============================================================================
-   CLASSIC FANTASY - Medieval Tavern with Torchlight & Stone Walls
+   CLASSIC FANTASY - Medieval Overworld Map (Original Pixel Art)
    ============================================================================= */
 
 .theme-classic {
   background-color: #1a1a2e;
   background-image: 
-    /* Stone wall pattern */
-    repeating-linear-gradient(
-      0deg,
-      rgba(139, 69, 19, 0.3),
-      rgba(139, 69, 19, 0.3) 2px,
-      transparent 2px,
-      transparent 20px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(139, 69, 19, 0.3),
-      rgba(139, 69, 19, 0.3) 2px,
-      transparent 2px,
-      transparent 30px
-    ),
-    /* Warm torchlight glow from corners */
-    radial-gradient(ellipse at 10% 10%, rgba(255, 140, 0, 0.4) 0%, transparent 50%),
-    radial-gradient(ellipse at 90% 10%, rgba(255, 140, 0, 0.3) 0%, transparent 50%),
+    /* Warm torchlight overlay */
+    radial-gradient(ellipse at 10% 10%, rgba(255, 140, 0, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 10%, rgba(255, 140, 0, 0.25) 0%, transparent 50%),
     radial-gradient(ellipse at 50% 50%, rgba(255, 165, 0, 0.15) 0%, transparent 70%),
-    /* Deep dungeon background */
-    linear-gradient(180deg, #2d1f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
-  background-attachment: fixed;
+    /* Pixel art overworld map */
+    url('https://opengameart.org/sites/default/files/overworld-pre-sm.png');
   background-size: 
     100% 100%,
     100% 100%,
     100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%;
+    cover;
+  background-position: center;
+  background-attachment: fixed;
+  image-rendering: pixelated;
   position: relative;
   overflow: hidden;
 }
 
-/* Animated torch flames */
+/* Animated torch flames overlay */
 .theme-classic::before {
   content: '';
   position: fixed;
@@ -51,11 +37,11 @@
   right: 0;
   bottom: 0;
   background-image: 
-    radial-gradient(circle at 15% 15%, rgba(255, 100, 0, 0.2) 0%, transparent 8%),
-    radial-gradient(circle at 85% 15%, rgba(255, 80, 0, 0.15) 0%, transparent 6%);
+    radial-gradient(circle at 15% 15%, rgba(255, 100, 0, 0.15) 0%, transparent 8%),
+    radial-gradient(circle at 85% 15%, rgba(255, 80, 0, 0.12) 0%, transparent 6%);
   animation: torchFlicker 3s ease-in-out infinite alternate;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 @keyframes torchFlicker {
@@ -91,7 +77,7 @@
   animation: embersRise 8s linear infinite;
   opacity: 0.6;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 
 @keyframes embersRise {
@@ -112,38 +98,35 @@
 }
 
 /* =============================================================================
-   90s MILLENNIUM - FF7 Mako Reactor with Industrial Elements
+   90s MILLENNIUM - FF7 World Map with Mako Filter
+   Industrial fantasy version with green/blue mako tint
    ============================================================================= */
 
 .theme-millennium {
   background-color: #0a0e1a;
   background-image: 
-    /* Industrial grid lines */
-    linear-gradient(
-      0deg,
-      rgba(0, 255, 136, 0.05) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(0, 255, 136, 0.05) 1px,
-      transparent 1px
-    ),
-    /* Mako energy swirls */
-    radial-gradient(ellipse at 30% 40%, rgba(0, 255, 136, 0.2) 0%, transparent 40%),
-    radial-gradient(ellipse at 70% 60%, rgba(74, 144, 217, 0.25) 0%, transparent 45%),
-    radial-gradient(ellipse at 50% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 60%),
-    /* Deep space gradient */
-    linear-gradient(180deg, #0a0e1a 0%, #1a1f3a 50%, #0f1a2e 100%);
-  background-attachment: fixed;
+    /* Mako energy overlay - green/blue tint */
+    radial-gradient(ellipse at 30% 40%, rgba(0, 255, 136, 0.25) 0%, transparent 40%),
+    radial-gradient(ellipse at 70% 60%, rgba(74, 144, 217, 0.3) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 50%, rgba(0, 255, 136, 0.15) 0%, transparent 60%),
+    /* Pixel art overworld map with mako filter */
+    url('https://opengameart.org/sites/default/files/overworld-pre-sm.png');
   background-size: 
     100% 100%,
     100% 100%,
     100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%;
+    cover;
+  background-position: center;
+  background-attachment: fixed;
+  image-rendering: pixelated;
   position: relative;
+  /* Apply slight color filter for mako effect */
+  filter: hue-rotate(90deg) saturate(1.3);
+}
+
+/* Container wrapper to prevent filter affecting children */
+.theme-millennium #app {
+  filter: none;
 }
 
 /* Animated mako particles */
@@ -168,7 +151,7 @@
   animation: makoFloat 15s linear infinite;
   opacity: 0.8;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 @keyframes makoFloat {
@@ -196,12 +179,12 @@
   height: 150vmax;
   background: radial-gradient(
     circle,
-    rgba(0, 255, 136, 0.08) 0%,
+    rgba(0, 255, 136, 0.1) 0%,
     transparent 50%
   );
   animation: makoPulse 4s ease-out infinite;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 
 @keyframes makoPulse {
@@ -219,55 +202,46 @@
 }
 
 /* =============================================================================
-   SCI-FI RPG - Holographic Space Bridge with Stars & Grid
+   SCI-FI RPG - Space World Map with Holographic Overlay
+   Star Ocean/Phantasy Star style - cosmic version
    ============================================================================= */
 
 .theme-scifi {
   background-color: #000000;
   background-image: 
-    /* Moving holographic grid */
+    /* Holographic grid overlay */
     linear-gradient(
       0deg,
-      rgba(0, 255, 255, 0.15) 1px,
+      rgba(0, 255, 255, 0.12) 1px,
       transparent 1px
     ),
     linear-gradient(
       90deg,
-      rgba(0, 255, 255, 0.15) 1px,
+      rgba(0, 255, 255, 0.12) 1px,
       transparent 1px
     ),
-    /* Deep space with nebula */
-    radial-gradient(ellipse at 20% 30%, rgba(100, 0, 255, 0.2) 0%, transparent 40%),
-    radial-gradient(ellipse at 80% 70%, rgba(0, 100, 255, 0.15) 0%, transparent 35%),
-    /* Star field */
-    radial-gradient(1px 1px at 10% 10%, #ffffff, transparent),
-    radial-gradient(1px 1px at 20% 30%, #ffffff, transparent),
-    radial-gradient(1px 1px at 30% 50%, #ffffff, transparent),
-    radial-gradient(1px 1px at 40% 70%, #ffffff, transparent),
-    radial-gradient(1px 1px at 50% 90%, #ffffff, transparent),
-    radial-gradient(1px 1px at 60% 20%, #ffffff, transparent),
-    radial-gradient(1px 1px at 70% 40%, #ffffff, transparent),
-    radial-gradient(1px 1px at 80% 60%, #ffffff, transparent),
-    radial-gradient(1px 1px at 90% 80%, #ffffff, transparent),
-    /* Space gradient */
-    linear-gradient(180deg, #000000 0%, #0a0a1a 50%, #000033 100%);
-  background-attachment: fixed;
+    /* Deep space nebula */
+    radial-gradient(ellipse at 20% 30%, rgba(100, 0, 255, 0.25) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 70%, rgba(0, 100, 255, 0.2) 0%, transparent 35%),
+    /* Pixel art overworld map with space filter */
+    url('https://opengameart.org/sites/default/files/overworld-pre-sm.png');
   background-size: 
     50px 50px,
     50px 50px,
     100% 100%,
     100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%,
-    100% 100%;
+    cover;
+  background-position: center;
+  background-attachment: fixed;
+  image-rendering: pixelated;
   position: relative;
+  /* Apply blue/cyan filter for sci-fi effect */
+  filter: hue-rotate(180deg) saturate(1.2) contrast(1.1);
+}
+
+/* Container wrapper to prevent filter affecting children */
+.theme-scifi #app {
+  filter: none;
 }
 
 /* Animated grid movement */
@@ -281,14 +255,14 @@
   background-image: 
     linear-gradient(
       0deg,
-      rgba(0, 255, 255, 0.1) 1px,
+      rgba(0, 255, 255, 0.08) 1px,
       transparent 1px
     );
   background-size: 50px 50px;
   animation: gridMove 10s linear infinite;
   opacity: 0.5;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 @keyframes gridMove {
@@ -300,7 +274,7 @@
   }
 }
 
-/* Twinkling stars */
+/* Twinkling stars overlay */
 .theme-scifi::after {
   content: '';
   position: fixed;
@@ -321,7 +295,7 @@
   animation: starsTwinkle 3s ease-in-out infinite;
   opacity: 0.7;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 
 @keyframes starsTwinkle {
@@ -335,25 +309,6 @@
   }
 }
 
-/* Scanline overlay for all themes (subtle CRT effect) */
-.theme-scifi .app-container::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.15),
-    rgba(0, 0, 0, 0.15) 1px,
-    transparent 1px,
-    transparent 2px
-  );
-  pointer-events: none;
-  z-index: 9999;
-}
-
 /* =============================================================================
    THEME TRANSITIONS - Smooth theme switching
    ============================================================================= */
@@ -362,7 +317,8 @@ body {
   transition: 
     background 0.5s ease,
     background-image 0.5s ease,
-    color 0.3s ease;
+    color 0.3s ease,
+    filter 0.5s ease;
 }
 
 .retro-panel,
