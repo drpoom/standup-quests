@@ -7,22 +7,33 @@
       <HallOfFame v-if="store.state === 'HALL_OF_FAME'" />
     </div>
     
+    <!-- Theme Selector (always visible) -->
+    <ThemeSelector />
+    
     <!-- Music Player (always visible) -->
     <MusicPlayer />
   </div>
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import { store } from './store.js';
+import { initTheme } from './themes.js';
 import Setup from './components/Setup.vue';
 import Journey from './components/Journey.vue';
 import HallOfFame from './components/HallOfFame.vue';
+import ThemeSelector from './components/ThemeSelector.vue';
 import MusicPlayer from './components/MusicPlayer.vue';
+
+// Initialize theme on mount
+onMounted(() => {
+  initTheme();
+});
 </script>
 
 <style>
 .font-retro {
-  font-family: 'Press Start 2P', monospace;
+  font-family: var(--theme-font-main, 'Press Start 2P', monospace);
   line-height: 1.5;
   -webkit-font-smoothing: none;
 }
