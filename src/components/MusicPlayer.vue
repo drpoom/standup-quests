@@ -93,7 +93,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 
 const tracks = [
   { id: 1, name: 'Peaceful Village', file: 'music/peaceful-village.mp3', artist: 'Stefan Grossmann' },
-  { id: 2, name: 'Peaceful Village (16-bit)', file: 'music/peaceful-village-16bit.mp3', artist: 'SNES Style' },
+  { id: 2, name: 'Heroic Demise (Chiptune)', file: 'music/heroic-demise.mp3', artist: 'OpenGameArt' },
   { id: 3, name: 'Mystic Force', file: 'music/mystic-force.mp3', artist: 'Kevin MacLeod' }
 ];
 
