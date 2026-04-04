@@ -6,6 +6,9 @@
       <Journey v-if="store.state === 'JOURNEY' || store.state === 'TRANSITION'" />
       <HallOfFame v-if="store.state === 'HALL_OF_FAME'" />
     </div>
+    
+    <!-- Music Player (always visible) -->
+    <MusicPlayer />
   </div>
 </template>
 
@@ -14,6 +17,7 @@ import { store } from './store.js';
 import Setup from './components/Setup.vue';
 import Journey from './components/Journey.vue';
 import HallOfFame from './components/HallOfFame.vue';
+import MusicPlayer from './components/MusicPlayer.vue';
 </script>
 
 <style>
