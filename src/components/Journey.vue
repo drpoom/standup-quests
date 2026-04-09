@@ -69,7 +69,7 @@
             {{ member.score }}
           </div>
           
-          <img :src="`https://minotar.net/helm/${member.avatarClass}/64.png`" 
+          <img :src="`https://api.dicebear.com/7.x/bottts/svg?seed=${member.avatarClass}`" 
                class="w-10 h-10 mb-2 border-2 border-white pixelated" alt="avatar" />
                
           <span class="text-[8px] text-center truncate w-full uppercase text-yellow-200" :title="member.name">

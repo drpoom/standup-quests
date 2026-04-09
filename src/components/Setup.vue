@@ -25,7 +25,7 @@
           <li v-for="member in store.party" :key="member.name" 
               class="flex items-center justify-between bg-black/50 border-4 border-white p-2">
             <div class="flex items-center gap-3">
-              <img :src="`https://minotar.net/helm/${member.avatarClass}/64.png`" 
+              <img :src="`https://api.dicebear.com/7.x/bottts/svg?seed=${member.avatarClass}`" 
                    class="w-10 h-10 border-2 border-white pixelated bg-black" alt="avatar" />
               <div class="flex flex-col justify-center">
                 <span class="text-[10px] text-yellow-400 truncate max-w-[120px]" :title="member.name">{{ member.name }}</span>

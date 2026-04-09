@@ -11,7 +11,7 @@
       <!-- 2nd Place -->
       <div v-if="sortedParty[1] && sortedParty[1].score > 0" class="flex flex-col items-center order-2 md:order-1 transform md:-translate-y-8">
         <div class="text-[10px] text-gray-300 mb-2">RANK 2</div>
-        <img :src="`https://minotar.net/helm/${sortedParty[1].avatarClass}/128.png`" 
+        <img :src="`https://api.dicebear.com/7.x/bottts/svg?seed=${sortedParty[1].avatarClass}&size=128`" 
              class="w-24 h-24 border-4 border-gray-400 pixelated bg-black" alt="avatar" />
         <div class="text-sm mt-4 text-white uppercase">{{ sortedParty[1].name }}</div>
         <div class="text-xs text-yellow-400">{{ sortedParty[1].score }} PTS</div>
@@ -20,7 +20,7 @@
       <!-- 1st Place -->
       <div v-if="sortedParty[0] && sortedParty[0].score > 0" class="flex flex-col items-center order-1 md:order-2 z-10 mb-8 md:mb-0">
         <div class="text-xs text-yellow-400 mb-2 animate-pulse">RANK 1</div>
-        <img :src="`https://minotar.net/helm/${sortedParty[0].avatarClass}/128.png`" 
+        <img :src="`https://api.dicebear.com/7.x/bottts/svg?seed=${sortedParty[0].avatarClass}&size=128`" 
              class="w-32 h-32 border-4 border-yellow-400 pixelated bg-black" alt="avatar" />
         <div class="text-base mt-4 text-white uppercase">{{ sortedParty[0].name }}</div>
         <div class="text-sm text-yellow-400">{{ sortedParty[0].score }} PTS</div>
@@ -29,7 +29,7 @@
       <!-- 3rd Place -->
       <div v-if="sortedParty[2] && sortedParty[2].score > 0" class="flex flex-col items-center order-3 md:order-3 transform md:-translate-y-12">
         <div class="text-[10px] text-yellow-700 mb-2">RANK 3</div>
-        <img :src="`https://minotar.net/helm/${sortedParty[2].avatarClass}/128.png`" 
+        <img :src="`https://api.dicebear.com/7.x/bottts/svg?seed=${sortedParty[2].avatarClass}&size=128`" 
              class="w-20 h-20 border-4 border-yellow-700 pixelated bg-black" alt="avatar" />
         <div class="text-sm mt-4 text-white uppercase">{{ sortedParty[2].name }}</div>
         <div class="text-xs text-yellow-400">{{ sortedParty[2].score }} PTS</div>
@@ -50,7 +50,7 @@
             
           <div class="flex items-center gap-4" :class="{ 'grayscale opacity-50': member.score === 0 }">
             <span class="text-xs text-gray-400">{{ podiumCount + index + 1 }}.</span>
-            <img :src="`https://minotar.net/helm/${member.avatarClass}/64.png`" 
+            <img :src="`https://api.dicebear.com/7.x/bottts/svg?seed=${member.avatarClass}`" 
                  class="w-12 h-12 border-2 border-white pixelated bg-black" alt="avatar" />
             <div>
               <span class="block text-sm uppercase" :class="member.score === 0 ? 'text-red-400 line-through' : 'text-white'">
