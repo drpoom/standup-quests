@@ -10,6 +10,7 @@ export const GameState = {
 };
 
 const savedParty = JSON.parse(localStorage.getItem('standup_party') || '[]');
+const savedCustomQuests = JSON.parse(localStorage.getItem('standup_custom_quests') || '[]');
 
 export const fantasyClasses = [
   "Knight", "Mage", "Rogue", "Paladin", "Cleric", 
@@ -20,6 +21,7 @@ export const fantasyClasses = [
 export const store = reactive({
   state: GameState.SETUP,
   party: savedParty,
+  customQuests: savedCustomQuests,
   selectedQuests: [],
   currentQuestIndex: 0,
   timeRemaining: 0,
@@ -36,7 +38,6 @@ export const store = reactive({
   addMember(name) {
     if (!name || this.party.find(m => m.name.toLowerCase() === name.toLowerCase())) return;
     
-    // Find an unused class or pick a random one if all 15 are used
     const usedClasses = this.party.map(m => m.avatarClass);
     const availableClasses = fantasyClasses.filter(c => !usedClasses.includes(c));
     const avatarClass = availableClasses.length > 0 
@@ -51,6 +52,18 @@ export const store = reactive({
     });
   },
 
+  addCustomQuest(text) {
+    if (!text || !text.trim()) return;
+    if (this.customQuests.find(q => q.toLowerCase() === text.trim().toLowerCase())) return;
+    this.customQuests.push(text.trim());
+    localStorage.setItem('standup_custom_quests', JSON.stringify(this.customQuests));
+  },
+
+  removeCustomQuest(text) {
+    this.customQuests = this.customQuests.filter(q => q !== text);
+    localStorage.setItem('standup_custom_quests', JSON.stringify(this.customQuests));
+  },
+
   removeMember(name) {
     this.party = this.party.filter(m => m.name !== name);
   },
@@ -58,9 +71,10 @@ export const store = reactive({
   startJourney() {
     if (this.party.length === 0) return;
     
-    // Pick random quests
-    const shuffled = [...quests].sort(() => 0.5 - Math.random());
-    this.selectedQuests = shuffled.slice(0, Math.min(this.settings.questCount, quests.length)).map(q => ({
+    // Combine default + custom quests
+    const allQuests = [...quests, ...this.customQuests];
+    const shuffled = [...allQuests].sort(() => 0.5 - Math.random());
+    this.selectedQuests = shuffled.slice(0, Math.min(this.settings.questCount, allQuests.length)).map(q => ({
       text: q,
       timeLimit: this.settings.timeLimit
     }));
