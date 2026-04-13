@@ -127,14 +127,7 @@
     <canvas ref="particleCanvas" class="fixed inset-0 z-15 pointer-events-none"></canvas>
 
     <!-- Transition Overlay -->
-    <div v-if="store.state === 'TRANSITION'" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center">
-      <div class="retro-panel border-yellow-400 text-center">
-        <div class="text-xl text-white mb-8">PREPARE YOURSELF</div>
-        <div class="text-6xl text-yellow-400 animate-pulse">
-          {{ store.transitionTimeRemaining }}
-        </div>
-      </div>
-    </div>
+    <TransitionOverlay />
     
     <!-- Paused Overlay -->
     <div v-if="store.paused && store.state !== 'TRANSITION'" class="fixed inset-0 z-40 bg-black/80 flex items-center justify-center">
@@ -149,6 +142,7 @@
 import { ref, computed, watch, onUnmounted } from 'vue';
 import { store } from '../store.js';
 import { getCurrentTheme } from '../themes.js';
+import TransitionOverlay from './TransitionOverlay.vue';
 
 const newMember = ref('');
 const journeyRoot = ref(null);
