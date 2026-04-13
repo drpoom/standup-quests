@@ -49,10 +49,30 @@
         {{ currentQuestText }}
       </h2>
       
-      <!-- Timer -->
-      <div class="text-2xl md:text-4xl text-white drop-shadow-[4px_4px_0px_#000]" 
-           :class="{ 'text-red-500': store.timeRemaining <= 10 }">
-        {{ Math.floor(store.timeRemaining / 60) }}:{{ (store.timeRemaining % 60).toString().padStart(2, '0') }}
+      <!-- Timer with circular progress -->
+      <div class="relative flex items-center justify-center" style="width:100px;height:100px;">
+        <svg class="absolute inset-0" viewBox="0 0 100 100">
+          <!-- Background circle -->
+          <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="4" />
+          <!-- Progress circle -->
+          <circle cx="50" cy="50" r="44" fill="none" 
+                  :stroke="timerColor" 
+                  stroke-width="4" 
+                  stroke-linecap="round"
+                  :stroke-dasharray="circumference"
+                  :stroke-dashoffset="dashOffset"
+                  transform="rotate(-90 50 50)"
+                  class="timer-ring transition-all duration-1000 linear" />
+          <!-- Urgency pulse ring (last 10s) -->
+          <circle v-if="store.timeRemaining <= 10" cx="50" cy="50" r="48" fill="none" 
+                  stroke="rgba(255,0,0,0.3)" stroke-width="2"
+                  class="urgency-ring" />
+        </svg>
+        <!-- Time text -->
+        <div class="text-lg md:text-xl font-bold drop-shadow-[2px_2px_0px_#000]"
+             :class="{ 'timer-urgent': store.timeRemaining <= 10, 'timer-warning': store.timeRemaining <= 30 && store.timeRemaining > 10 }">
+          {{ Math.floor(store.timeRemaining / 60) }}:{{ (store.timeRemaining % 60).toString().padStart(2, '0') }}
+        </div>
       </div>
     </div>
 
@@ -126,13 +146,43 @@
 </template>
 
 <script setup>
-import { ref, computed, onUnmounted } from 'vue';
+import { ref, computed, watch, onUnmounted } from 'vue';
 import { store } from '../store.js';
 import { getCurrentTheme } from '../themes.js';
 
 const newMember = ref('');
 const journeyRoot = ref(null);
 const particleCanvas = ref(null);
+
+// --- Timer computed ---
+const quest = computed(() => store.selectedQuests[store.currentQuestIndex]);
+const maxTime = computed(() => quest.value?.timeLimit || store.settings.timeLimit);
+const progress = computed(() => 1 - (store.timeRemaining / maxTime.value));
+const circumference = 2 * Math.PI * 44; // r=44
+
+const dashOffset = computed(() => {
+  return circumference * (1 - progress.value);
+});
+
+const timerColor = computed(() => {
+  if (store.timeRemaining <= 10) return '#ff3333';
+  if (store.timeRemaining <= 30) return '#ffaa00';
+  const accent = getCurrentTheme().colors?.accent || '#ffd700';
+  return accent;
+});
+
+// Watch for timer hitting 10s for urgency pulse
+watch(() => store.timeRemaining, (newVal) => {
+  if (newVal === 10 || newVal === 5) {
+    screenFlash.value = true;
+    flashColor.value = '#ff3333';
+    flashAlpha.value = 0.1;
+    requestAnimationFrame(() => {
+      flashAlpha.value = 0;
+      setTimeout(() => { screenFlash.value = false; }, 200);
+    });
+  }
+});
 
 // --- Floating score texts ---
 const floatingTexts = ref([]);
@@ -160,13 +210,12 @@ function handleAwardPoint(name, event) {
   const member = store.party.find(m => m.name === name);
   if (!member) return;
 
-  // Award the point
   store.awardPoint(name);
-  if (!store.currentQuestScoredMembers.has(name)) return; // didn't actually score
+  if (!store.currentQuestScoredMembers.has(name)) return;
 
   const accentColor = getThemeAccent();
 
-  // 1. Floating "+1" text at click position
+  // 1. Floating "+1" text
   const rect = journeyRoot.value?.getBoundingClientRect();
   if (rect && event) {
     const x = event.clientX - rect.left;
@@ -178,7 +227,7 @@ function handleAwardPoint(name, event) {
     }, 1000);
   }
 
-  // 2. Particle burst from click position
+  // 2. Particle burst
   if (event && particleCanvas.value) {
     const pRect = particleCanvas.value.getBoundingClientRect();
     const px = event.clientX - pRect.left;
@@ -186,7 +235,7 @@ function handleAwardPoint(name, event) {
     spawnParticleBurst(px, py, accentColor);
   }
 
-  // 3. Card shake + glow
+  // 3. Card effects
   member._shaking = true;
   member._glowing = true;
   member._scoreBump = true;
@@ -240,8 +289,8 @@ function animateParticles() {
     const p = particles[i];
     p.x += p.vx * 0.016;
     p.y += p.vy * 0.016;
-    p.vy += 200 * 0.016; // gravity
-    p.vx *= 0.97; // drag
+    p.vy += 200 * 0.016;
+    p.vx *= 0.97;
     p.life -= p.decay;
 
     if (p.life <= 0) {
@@ -264,7 +313,6 @@ function animateParticles() {
   }
 }
 
-// Handle resize
 function handleResize() {
   if (particleCanvas.value) {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -313,7 +361,7 @@ const handleAddMember = () => {
   100% { transform: translateY(-80px) scale(0.8); opacity: 0; }
 }
 
-/* Card shake on score */
+/* Card shake */
 .score-shake {
   animation: cardShake 0.4s ease-out;
 }
@@ -327,7 +375,7 @@ const handleAddMember = () => {
   100% { transform: translate(0, 0); }
 }
 
-/* Score bump animation */
+/* Score bump */
 .score-bump {
   animation: scoreBump 0.3s ease-out;
 }
@@ -341,7 +389,6 @@ const handleAddMember = () => {
 /* Glow overlay */
 .score-glow {
   animation: glowPulse 0.6s ease-out;
-  border-radius: 0;
 }
 
 @keyframes glowPulse {
@@ -349,7 +396,37 @@ const handleAddMember = () => {
   100% { box-shadow: inset 0 0 0px rgba(255, 215, 0, 0); }
 }
 
-/* Z-index for particle canvas */
+/* Timer ring */
+.timer-ring {
+  transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
+}
+
+/* Timer urgency */
+.timer-urgent {
+  animation: urgentPulse 0.5s ease-in-out infinite alternate;
+  color: #ff3333 !important;
+}
+
+@keyframes urgentPulse {
+  0% { transform: scale(1); text-shadow: 0 0 8px rgba(255,0,0,0.5); }
+  100% { transform: scale(1.1); text-shadow: 0 0 20px rgba(255,0,0,0.8); }
+}
+
+.timer-warning {
+  color: #ffaa00 !important;
+}
+
+/* Urgency ring pulse */
+.urgency-ring {
+  animation: urgencyRing 1s ease-in-out infinite;
+}
+
+@keyframes urgencyRing {
+  0% { opacity: 0.3; stroke-width: 2; }
+  50% { opacity: 0.8; stroke-width: 3; }
+  100% { opacity: 0.3; stroke-width: 2; }
+}
+
 .z-15 {
   z-index: 15;
 }
